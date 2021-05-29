@@ -2,10 +2,7 @@ package com.example.recuperacao3.dominio;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -25,11 +22,17 @@ public class BilheteUnico {
     private LocalDate data;
 
     @CPF
-    private Integer cpf;
+    private String cpf;
 
     @NotNull
     @PositiveOrZero
     private Double saldo;
+
+    private Double valorRecarga = 0.0;
+
+
+    @ManyToOne
+    private TipoPassagem tipoPassagem;
 
     public Integer getId() {
         return id;
@@ -55,11 +58,11 @@ public class BilheteUnico {
         this.data = data;
     }
 
-    public Integer getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Integer cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -68,6 +71,14 @@ public class BilheteUnico {
     }
 
     public void setSaldo(Double saldo) {
-        this.saldo = saldo;
+        this.saldo = getValorRecarga() + saldo;
+    }
+
+    public Double getValorRecarga() {
+        return valorRecarga;
+    }
+
+    public void setValorRecarga(Double valorRecarga) {
+        this.valorRecarga = valorRecarga;
     }
 }

@@ -1,12 +1,12 @@
 package com.example.recuperacao3.dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 
 @Entity
 public class TipoPassagem {
@@ -21,8 +21,12 @@ public class TipoPassagem {
 
     @NotNull
     @PositiveOrZero
-    private Double saldo;
+    private Double valor;
 
+
+    @OneToMany(mappedBy = "TipoPassagem")
+    @JsonIgnore
+    private List<BilheteUnico> bilhetes;
 
     public Integer getId() {
         return id;
@@ -40,12 +44,12 @@ public class TipoPassagem {
         this.descricao = descricao;
     }
 
-    public Double getSaldo() {
-        return saldo;
+    public Double getValor() {
+        return valor;
     }
 
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
 }
