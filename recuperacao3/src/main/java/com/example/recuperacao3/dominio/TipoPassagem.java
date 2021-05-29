@@ -22,7 +22,7 @@ public class TipoPassagem {
     @NotNull
     @PositiveOrZero
     private Double saldo;
-    
+
 
     public Integer getId() {
         return id;
@@ -47,4 +47,5 @@ public class TipoPassagem {
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
+
 }
