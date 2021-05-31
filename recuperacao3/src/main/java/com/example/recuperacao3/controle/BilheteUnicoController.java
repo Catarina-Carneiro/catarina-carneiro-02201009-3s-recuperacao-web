@@ -27,7 +27,6 @@ public class BilheteUnicoController {
     private TipoRepository TipoRepository;
 
 
-    //A)OK
     @PostMapping("/bilhete-unico")
     public ResponseEntity postBilhetes(@RequestBody @Valid BilheteUnico novoBu) {
 
@@ -45,7 +44,7 @@ public class BilheteUnicoController {
     }
 
 
-    //B) OK
+
     @GetMapping("/bilhete-unico/{id}")
     public ResponseEntity getBilheres() {
 
@@ -59,7 +58,7 @@ public class BilheteUnicoController {
     }
 
 
-    //    //C)ok
+
     @PostMapping("/tipo-passagem")
     public ResponseEntity postTipo(@RequestBody @Valid TipoPassagem novoTipo) {
 
@@ -76,8 +75,7 @@ public class BilheteUnicoController {
 
     }
 
-
-    //D  +/-
+    
     @PostMapping("/bilhete-unico/{id}/recarga/{valorRecarga}")
     public ResponseEntity postRecarga(@PathVariable Integer id, Double valorRecarga) {
 
@@ -105,33 +103,5 @@ public class BilheteUnicoController {
         }
 
     }
-
-
-    // E
-    @PostMapping("/bilhete-unico/{id}/passagem/{idTipo}")
-    public ResponseEntity postPassouCartao(@RequestBody @Valid BilheteUnico passouCartao) {
-
-        Optional<BilheteUnico> bilhete = repository.findById(passouCartao.getId());
-
-        BilheteUnico bilhete = bilheteUnicoOptional.get();
-
-        if (!bilhete.getSaldo().isPositivo) {
-
-            if (bilhete.getSaldo() + bilhete.getValorRecarga() < 230){
-
-                bilhete.setSaldo(bilhete.getSaldo() + bilhete.getValorRecarga());
-                return status(201).build();
-            }
-        } else if (bilhete.getSaldo() < getValorPassagem) {
-
-            return status(400).body("Recarga não efetuada! Passaria do limite de "+ bilhete.getSaldo()+
-                    "Você ainda pode carregar até"+ valor);
-        } else {
-
-            return status(400).body("id n econtrado");
-        }
-
-    }
-
 
 }
