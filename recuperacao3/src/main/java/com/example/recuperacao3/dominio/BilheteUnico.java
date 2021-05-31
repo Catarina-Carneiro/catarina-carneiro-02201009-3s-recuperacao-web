@@ -76,7 +76,7 @@ public class BilheteUnico {
     }
 
     public void setSaldo(Double saldo) {
-        this.saldo = getValorRecarga() + saldo;
+        this.saldo = saldo;
     }
 
     public TipoPassagem getTipoPassagem() {
@@ -94,4 +94,5 @@ public class BilheteUnico {
     public void setValorRecarga(Double valorRecarga) {
         this.valorRecarga = valorRecarga;
     }
+
 }

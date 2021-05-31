@@ -10,12 +10,11 @@ public interface BilheteRepository extends JpaRepository<BilheteUnico, Integer>{
 
     List<BilheteUnico> findAllByCpfEquals(String cpf);
 
+    List<BilheteUnico> findAllById(Integer id);
 
+  // List<BilheteUnico> findBySaldoLessThanEquals(double saldo);
 
-   // List<BilheteUnico> findBySaldoLessThanEquals(double saldo);
-
-   // int countBySaldoGreaterThan(double saldo);
-
+//   int countBySaldoGreaterThan(double saldo);
 
 
 }
