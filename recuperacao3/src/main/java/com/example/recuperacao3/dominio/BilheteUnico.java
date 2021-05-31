@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Entity
 public class BilheteUnico {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -33,6 +34,10 @@ public class BilheteUnico {
 
     @ManyToOne
     private TipoPassagem tipoPassagem;
+
+    public boolean isPositivo() {
+        return saldo > 0;
+    }
 
     public Integer getId() {
         return id;
@@ -72,6 +77,14 @@ public class BilheteUnico {
 
     public void setSaldo(Double saldo) {
         this.saldo = getValorRecarga() + saldo;
+    }
+
+    public TipoPassagem getTipoPassagem() {
+        return tipoPassagem;
+    }
+
+    public void setTipoPassagem(TipoPassagem tipoPassagem) {
+        this.tipoPassagem = tipoPassagem;
     }
 
     public Double getValorRecarga() {

@@ -21,10 +21,10 @@ public class TipoPassagem {
 
     @NotNull
     @PositiveOrZero
-    private Double valor;
+    private Double valorPassagem;
 
 
-    @OneToMany(mappedBy = "TipoPassagem")
+    @OneToMany(mappedBy = "tipoPassagem")
     @JsonIgnore
     private List<BilheteUnico> bilhetes;
 
@@ -44,12 +44,12 @@ public class TipoPassagem {
         this.descricao = descricao;
     }
 
-    public Double getValor() {
-        return valor;
+    public Double getValorPassagem() {
+        return valorPassagem;
     }
 
-    public void setValor(Double valor) {
-        this.valor = valor;
+    public void setValorPassagem(Double valorPassagem) {
+        this.valorPassagem = valorPassagem;
     }
 
 }

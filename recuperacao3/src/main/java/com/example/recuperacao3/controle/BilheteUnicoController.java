@@ -29,14 +29,20 @@ public class BilheteUnicoController {
     private TipoRepository TipoRepository;
 
 
-    //A) VALIDACAO DO CPF 2X
+    //A)OK
     @PostMapping("/bilhete-unico")
-    public ResponseEntity postBilhetes(@RequestBody @Valid BilheteUnico novoBU) {
+    public ResponseEntity postBilhetes(@RequestBody @Valid BilheteUnico novoBu) {
 
-        repository.save(novoBU);
-        return ResponseEntity.status(201).build();
+        List<BilheteUnico> bu = repository.findAllByCpfEquals(novoBu.getCpf());
 
-        //return ResponseEntity.status(400).body("Tipo de esporte não encontrado!");
+        if (bu.size() < 2) {
+
+            repository.save(novoBu);
+            return ResponseEntity.status(201).build();
+
+        } else {
+            return status(400).body("Você já tem 2 Bilhetes unicos nesse CPF!");
+        }
 
     }
 
@@ -55,73 +61,79 @@ public class BilheteUnicoController {
     }
 
 
-    //C)SÓ PODE TER UMA DESC
+    //    //C)ok
     @PostMapping("/tipo-passagem")
-    public ResponseEntity postTipo(@RequestBody TipoPassagem novoTipo) {
+    public ResponseEntity postTipo(@RequestBody @Valid TipoPassagem novoTipo) {
 
-        TipoRepository.save(novoTipo);
-        return ResponseEntity.status(201).build();
+        List<TipoPassagem> tipo = TipoRepository.findAllByDescricaoEquals(novoTipo.getDescricao());
+
+        if (tipo.size() < 1) {
+
+            TipoRepository.save(novoTipo);
+            return ResponseEntity.status(201).build();
+
+        } else {
+            return status(400).body("Tipo já cadastrado");
+        }
+
     }
 
-    //D ERRADO +/-
+
+    //D  +/-
     @PostMapping("/bilhete-unico/{id}/recarga/{valorRecarga}")
-    public ResponseEntity postRecarga(@PathVariable Integer id){
+    public ResponseEntity postRecarga(@PathVariable Integer id) {
 
         Optional<BilheteUnico> bilheteUnicoOptional = repository.findById(id);
-        if (!bilheteUnicoOptional.isPresent()) {
-            return status(404).build();
+
+//        if (!bilheteUnicoOptional.isPresent()) {
+//            return status(404).build();
+//        } else {
+
+        BilheteUnico bilhete = bilheteUnicoOptional.get();
+        if (bilhete.getSaldo() > 1) {
+
+            bilhete.setSaldo(bilhete.getSaldo() + bilhete.getValorRecarga());
+            return status(201).build();
+
+        } else if (bilhete.getSaldo() < 1) {
+            return status(400).body("Valor da recarga deve ser a partir de R$1,00");
         } else {
-            BilheteUnico bilhete = bilheteUnicoOptional.get();
 
-            if (bilhete.getSaldo() > 1){
-
-                bilhete.setSaldo(bilhete.getSaldo());
-                return status(201).build();
-
-            }else if(bilhete.getSaldo() < 1){
-
-                return status(400).body("Valor da recarga deve ser a partir de R$1,00");
-
-            }else{
-
-                return status(400).body("id n econtrado");
-            }
-
+            return status(400).body("id n econtrado");
         }
+
     }
 
 
-    //E
-    @PostMapping("/bilhete-unico/{id}/passagem/{idTipo}")
-    public ResponseEntity postGolpeLuta(@RequestBody @Valid Recarga recarga) {
-
-        if (!repository.existsById(recarga.)
-                || !repository.existsById(golpe.getIdLutadorApanha())) {
-            return status(404).build();
-        }
-
-        Lutador lutadorBate = repository.findById(golpe.getIdLutadorBate()).get();
-        Lutador lutadorApanha = repository.findById(golpe.getIdLutadorApanha()).get();
-
-        if (!lutadorApanha.isVivo() || !lutadorBate.isVivo()) {
-            return status(400).body("Ambos os lutadores devem estar vivos!");
-        }
-
-        lutadorApanha.setVida(lutadorApanha.getVida() - lutadorBate.getForcaGolpe());
-        if (lutadorApanha.getVida() < 0) {
-            lutadorApanha.setVida(0);
-        }
-
-        // ou troca as 3 linhas de cima por: lutadorApanha.apanharDe(lutadorBate);
-
-        repository.save(lutadorApanha);
-
-        List<Lutador> lutadores = new ArrayList<>();
-        lutadores.add(lutadorApanha);
-        lutadores.add(lutadorBate);
-        return status(201).body(lutadores);
-
-    }
+//    E
+//    @PostMapping("/bilhete-unico/{id}/passagem/{idTipo}")
+//    public ResponseEntity postGolpeLuta(@RequestBody @Valid Recarga recarga) {
+//
+//        if (!repository.existsById(recarga.getIdNovaRecarga())) {
+//            return status(404).body("BU não encontrado");
+//        }
+//        if (!repository.existsById(TipoPassagem.getId())) {
+//            return status(404).body("Tipo de passagem não encontrado");
+//        }
+//
+//        BilheteUnico novaRecarga = repository.findById(recarga.getIdNovaRecarga()).get();
+//        BilheteUnico passouCatraca = repository.findById(recarga.getIdPassouCatraca().get());
+//
+//
+//        if (!novaRecarga.isPositivo()) {
+//
+//            return status(400).body("Saldo atual: " + novaRecarga.getSaldo() + "insuficiente para esta passagem");
+//        }
+//
+//        novaRecarga.setSaldo(novaRecarga.getSaldo() - passouCatraca.getValorPassagem);
+//
+//        repository.save(passouCatraca);
+//
+//        List<BilheteUnico> bilheteUnicos = new ArrayList<>();
+//        bilheteUnicos.add(passouCatraca);
+//        return status(201).body(bilheteUnicos);
+//
+// }
 
 
 }

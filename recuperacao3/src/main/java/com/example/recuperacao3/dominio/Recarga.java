@@ -7,26 +7,25 @@ public class Recarga {
 
     @NotNull
     @Positive
-    private Integer idRecarga;
+    private Integer idNovaRecarga;
 
     @NotNull
     @Positive
-    private Integer idBuRecarregado;
+    private Integer idPassouCatraca;
 
-    public Integer getIdRecarga() {
-        return idRecarga;
+    public Integer getIdNovaRecarga() {
+        return idNovaRecarga;
     }
 
-    public void setIdRecarga(Integer idRecarga) {
-        this.idRecarga = idRecarga;
+    public void setIdNovaRecarga(Integer idNovaRecarga) {
+        this.idNovaRecarga = idNovaRecarga;
     }
 
-    public Integer getIdBuRecarregado() {
-        return idBuRecarregado;
+    public Integer getIdPassouCatraca() {
+        return idPassouCatraca;
     }
 
-    public void setIdBuRecarregado(Integer idBuRecarregado) {
-        this.idBuRecarregado = idBuRecarregado;
+    public void setIdPassouCatraca(Integer idPassouCatraca) {
+        this.idPassouCatraca = idPassouCatraca;
     }
-
 }
